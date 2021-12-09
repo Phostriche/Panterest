@@ -50,4 +50,5 @@ trait Timestampable
     }
     $this->setUpdatedAt(new \DateTimeImmutable);
 
-}}
+}
+}
