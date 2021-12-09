@@ -8,9 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\PinType;
 
 class PinsController extends AbstractController
 {
@@ -32,15 +32,7 @@ public function create ( Request $request, EntityManagerInterface $em) : Respons
    
     $pin= new Pin;
    
-   
-
-    $form =$this->createFormBuilder($pin)
-    -> add('title', TextType::class)
-    ->add('description', TextareaType::class)
-
-    
-    ->getForm()
-    ;
+    $form =$this->createForm(PinType::class, $pin);
 $form ->handleRequest($request);
 if($form->isSubmitted() && $form->isValid())
 { 
@@ -64,19 +56,14 @@ return $this->redirectToRoute('app_home');
        return $this->render('pins/show.html.twig', compact('pin'));
         
     }
-
+   
          /**
-     * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit", methods={"GET", "POST"})
+     * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit", methods={"GET", "PUT"})
      */
     public function edit(Request $request,Pin $pin, EntityManagerInterface $em): Response
     {
-        $form =$this->createFormBuilder($pin)
-        -> add('title', TextType::class)
-        ->add('description', TextareaType::class)
-    
-        
-        ->getForm()
-        ;
+        $form =$this->createForm(PinType::class, $pin,['method'=>'PUT']);
+
     $form ->handleRequest($request);
     if($form->isSubmitted() && $form->isValid())
     { 
