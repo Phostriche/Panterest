@@ -7,10 +7,7 @@
 {% block body %}
 
     <h1>Create a pin </h1>
-    {{form_start(monFormulaire)}}
 
-
-{{form_widget(monFormulaire)}}
-<input type="submit" value="create Pin">
-{{form_end(monFormulaire)}}
+    {{include('pins/_form.html.twig')}}
+ 
 {% endblock %}

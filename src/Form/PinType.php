@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PinType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title')
@@ -18,10 +18,11 @@ class PinType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Pin::class,
+        
         ]);
     }
 }

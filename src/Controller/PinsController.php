@@ -42,7 +42,7 @@ return $this->redirectToRoute('app_home');
 }
 
     return $this->render('pins/create.html.twig',[
-        'monFormulaire'=> $form->createView()
+        'form'=> $form->createView()
     ]);
 
 }
@@ -58,22 +58,37 @@ return $this->redirectToRoute('app_home');
     }
    
          /**
-     * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit", methods={"GET", "PUT"})
+     * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request,Pin $pin, EntityManagerInterface $em): Response
     {
-        $form =$this->createForm(PinType::class, $pin,['method'=>'PUT']);
+        $form =$this->createForm(PinType::class, $pin,['method'=>'POST']);
 
     $form ->handleRequest($request);
     if($form->isSubmitted() && $form->isValid())
     { 
    
-    $em->flush();}
+    $em->flush();
+return $this->redirectToRoute('app_home');
+}
        return $this->render('pins/edit.html.twig', [
            'pin'=>$pin,
-           'monFormulaire'=>$form->createView()
+           'form'=>$form->createView()
        ]);
         
     }
 
+      /**
+     * @Route("/pins/{id<[0-9]+>}/delete", name="app_pins_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Pin $pin, EntityManagerInterface $em): Response
+    {  
+       
+        if($this->isCsrfTokenValid('pin_deletion_'.$pin->getId(),$request->request->get('csrf_token'))){
+        $em->remove($pin);
+        $em->flush();
+        }
+        return $this->redirectToRoute('app_home');
+    }
+   
     }
