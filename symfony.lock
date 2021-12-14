@@ -88,6 +88,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "knplabs/knp-time-bundle": {
+        "version": "1.17.0"
+    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
@@ -501,6 +504,9 @@
         "version": "4.4.0"
     },
     "twig/extra-bundle": {
+        "version": "v3.3.4"
+    },
+    "twig/string-extra": {
         "version": "v3.3.4"
     },
     "twig/twig": {
