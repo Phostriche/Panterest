@@ -38,6 +38,7 @@ if($form->isSubmitted() && $form->isValid())
 { 
 $em->persist($pin);
 $em->flush();
+$this->addFlash('success', 'pin créé avec succès');
 return $this->redirectToRoute('app_home');
 }
 
@@ -69,6 +70,7 @@ return $this->redirectToRoute('app_home');
     { 
    
     $em->flush();
+    $this->addFlash('success', 'pin mis à jour avec succès');
 return $this->redirectToRoute('app_home');
 }
        return $this->render('pins/edit.html.twig', [
@@ -79,15 +81,16 @@ return $this->redirectToRoute('app_home');
     }
 
       /**
-     * @Route("/pins/{id<[0-9]+>}/delete", name="app_pins_delete", methods={"POST"})
+     * @Route("/pins/{id<[0-9]+>}/delete", name="app_pins_delete", methods={"DELETE", "POST", "GET"})
      */
     public function delete(Request $request, Pin $pin, EntityManagerInterface $em): Response
     {  
        
-        if($this->isCsrfTokenValid('pin_deletion_'.$pin->getId(),$request->request->get('csrf_token'))){
+ //       if($this->isCsrfTokenValid('pin_deletion_'.$pin->getId(),$request->request->get('csrf_token'))){
         $em->remove($pin);
         $em->flush();
-        }
+        $this->addFlash('info', 'pin supprimé avec succès');
+ //       }
         return $this->redirectToRoute('app_home');
     }
    
