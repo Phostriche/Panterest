@@ -22,5 +22,23 @@ body {
     background-color: red;
 }
 .alert-info {
-    background-color: blue;
-}
+    background-color: blue;}
+
+.vich-image img {
+    .form_check {
+        @extend .mt-2;
+
+    }
+        img {
+
+               @extend .mb-2, .rounded, .shadow, .img-thumbnail;
+ 
+            }
+        }
+      
+        .pin img {
+           transition: transform 0.3s ease-out; 
+        &:hover {
+            transform: scale(1.075);
+        }
+    }

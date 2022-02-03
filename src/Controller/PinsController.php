@@ -3,12 +3,13 @@
 namespace App\Controller;
 use App\Entity\Pin;
 use App\Repository\PinRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PinType;
 
@@ -36,7 +37,7 @@ public function create ( Request $request, EntityManagerInterface $em) : Respons
 $form ->handleRequest($request);
 if($form->isSubmitted() && $form->isValid())
 { 
-$em->persist($pin);
+    $em->persist($pin);
 $em->flush();
 $this->addFlash('success', 'pin créé avec succès');
 return $this->redirectToRoute('app_home');
@@ -59,25 +60,30 @@ return $this->redirectToRoute('app_home');
     }
    
          /**
-     * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit", methods={"GET", "POST"})
+     * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit", methods={"GET", "PUT", "POST"})
      */
-    public function edit(Request $request,Pin $pin, EntityManagerInterface $em): Response
+      public function edit(Request $request, Pin $pin, EntityManagerInterface $em): Response
     {
-        $form =$this->createForm(PinType::class, $pin,['method'=>'POST']);
+        $form = $this->createForm(PinType::class, $pin, [
+            'method' => 'PUT'
+        ]);
 
-    $form ->handleRequest($request);
-    if($form->isSubmitted() && $form->isValid())
-    { 
-   
-    $em->flush();
-    $this->addFlash('success', 'pin mis à jour avec succès');
-return $this->redirectToRoute('app_home');
-}
-       return $this->render('pins/edit.html.twig', [
-           'pin'=>$pin,
-           'form'=>$form->createView()
-       ]);
-        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $pin = $form->getData();
+           
+            $em->flush();
+
+            $this->addFlash('success','Pin successfully updated!');
+
+            return $this->redirectToRoute('app_home');
+        }
+        return $this->render('pins/edit.html.twig', [
+            'pin' => $pin,
+            'form' => $form->createView()
+
+        ]);
     }
 
       /**
