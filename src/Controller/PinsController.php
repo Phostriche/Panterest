@@ -8,8 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PinType;
 
@@ -28,7 +27,7 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/create", name="app_pins_create", methods={"GET","POST"})
      */
-public function create ( Request $request, EntityManagerInterface $em) : Response
+public function create ( Request $request, EntityManagerInterface $em, UserRepository $userRepo) : Response
 {
    
     $pin= new Pin;
@@ -36,7 +35,8 @@ public function create ( Request $request, EntityManagerInterface $em) : Respons
     $form =$this->createForm(PinType::class, $pin);
 $form ->handleRequest($request);
 if($form->isSubmitted() && $form->isValid())
-{ 
+{ $pin->setUser($this->getUser());
+   
     $em->persist($pin);
 $em->flush();
 $this->addFlash('success', 'pin créé avec succès');
@@ -71,7 +71,8 @@ return $this->redirectToRoute('app_home');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pin = $form->getData();
+            $em->persist($pin);
+             $pin = $form->getData();
            
             $em->flush();
 

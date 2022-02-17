@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 @import "~bootstrap/bootstrap";
-yaar
+
 body {
     background-color:lightblue;
     font-family:"Montserrat", sans-serif;
@@ -14,29 +14,28 @@ body {
     margin: 0;
     border: none;
     border-radius: 0;
-}
-.alert-success {
-    background-color: green;
-}
-.alert-error {
-    background-color: red;
-}
-.alert-info {
-    background-color: blue;}
 
-.vich-image img {
+    &.alert-success {
+        background-color: green;
+    }
+    &.alert-error {
+        background-color: red;
+    }
+    &.alert-info {
+    background-color: blue;
+    }
+}
+
+.vich-image {
     .form_check {
-        @extend .mt-2;
-
+        @extend .mt-3;
     }
         img {
-
-               @extend .mb-2, .rounded, .shadow, .img-thumbnail;
- 
+             @extend .mb-2, .rounded, .shadow, .img-thumbnail;
             }
         }
       
-        .pin img {
+.pin img {
            transition: transform 0.3s ease-out; 
         &:hover {
             transform: scale(1.075);
