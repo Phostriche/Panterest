@@ -27,8 +27,16 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
-    {
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, 
+    UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    {    if ($this->getUser()) {
+         
+        $this->addFlash('error','Already logged in !');
+        return $this->redirectToRoute('app_home');
+       }
+
+
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -49,7 +57,11 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('noreply@paanterest.com', 'Panterest'))
+                    ->from(new Address(
+                            $this->getParameter('app.mail_from_address'),
+                            $this->getParameter('app.mail_from_name')
+                            )
+                            )
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')

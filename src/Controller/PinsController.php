@@ -65,14 +65,13 @@ return $this->redirectToRoute('app_home');
       public function edit(Request $request, Pin $pin, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(PinType::class, $pin, [
-            'method' => 'PUT'
+            
         ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($pin);
-             $pin = $form->getData();
+           
            
             $em->flush();
 
@@ -88,7 +87,7 @@ return $this->redirectToRoute('app_home');
     }
 
       /**
-     * @Route("/pins/{id<[0-9]+>}/delete", name="app_pins_delete", methods={"DELETE", "POST", "GET"})
+     * @Route("/pins/{id<[0-9]+>}/delete", name="app_pins_delete", methods={"DELETE", "POST", "GET", "PUT"})
      */
     public function delete(Request $request, Pin $pin, EntityManagerInterface $em): Response
     {  

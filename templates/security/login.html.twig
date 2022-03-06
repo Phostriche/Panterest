@@ -29,26 +29,26 @@
 
 <diV class="d-flex justify-content-between">
 <div class="form-group">
-   
+   <div class="form-chek">
         <input class="form-chek-input" type="checkbox" name="_remember_me" id="remember_me"> 
         <label class="form-check-label" for ="remember_me" >
         Remember me
     </label>
+</diV>
+</diV>
+<a href="{{path('app_forgot_password_request')}}"> Forgot password ?</a>
+    </div>
 
-<a href="#"> Forgot password ?</a>
-</div>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <button class="btn btn-lg btn-block btn-primary" type="submit">
+    <button class="col-md-12 mx-auto mt-5 mb-3 text-center btn  btn-lg btn-block btn-primary" type="submit">
         Sign in
     </button>
+
              <p class="mt-5 mb-3 text-center text-muted">
                  Not registered yet ? <a href="{{path('app_register')}}">Create an account </a>
             </p>
             </form>
-        </div>
-    </div>
+       
+      
 {% endblock %}
